@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
 // ============================================================================
 // TRANSLATIONS (English / Urdu)
@@ -446,13 +446,9 @@ export default function App() {
   // CALCULATION LOGIC
   // ============================================================================
   const calculate = useCallback((): CalculationResult => {
-    setErrors([]);
-    setWarnings([]);
-
     // Validate start date
     const startDate = parseInputDate(startDateStr);
     if (!startDate) {
-      setErrors([t('requiredField')]);
       return { totalSentenceDays: 0, remissionDays: 0, netSentenceDays: 0, pdr: null, totalAdjustmentDays: 0, finalReleaseDate: null, error: t('requiredField') };
     }
 
@@ -463,19 +459,16 @@ export default function App() {
 
     // Validate: reject negative numbers
     if (y < 0 || m < 0 || d < 0) {
-      setErrors([t('invalidInput')]);
       return { totalSentenceDays: 0, remissionDays: 0, netSentenceDays: 0, pdr: null, totalAdjustmentDays: 0, finalReleaseDate: null, error: t('invalidInput') };
     }
 
     // Check for empty sentence
     if (y === 0 && m === 0 && d === 0) {
-      setErrors([t('emptySentence')]);
       return { totalSentenceDays: 0, remissionDays: 0, netSentenceDays: 0, pdr: null, totalAdjustmentDays: 0, finalReleaseDate: null, error: t('emptySentence') };
     }
 
     // Check for life sentence (very large values)
     if (y > 100) {
-      setErrors([t('lifeSentence')]);
       return { totalSentenceDays: 0, remissionDays: 0, netSentenceDays: 0, pdr: null, totalAdjustmentDays: 0, finalReleaseDate: null, error: t('lifeSentence') };
     }
 
@@ -504,11 +497,6 @@ export default function App() {
     // Step 6: Final release date = PDR - total adjustments
     const finalReleaseDate = addDaysToDate(pdr, -totalAdjustmentDays);
 
-    // Warning check: final date before start date
-    if (finalReleaseDate.getTime() < startDate.getTime()) {
-      setWarnings([t('warningBeforeStart')]);
-    }
-
     return {
       totalSentenceDays,
       remissionDays,
@@ -519,8 +507,25 @@ export default function App() {
     };
   }, [startDateStr, sentenceYears, sentenceMonths, sentenceDays, adjustments, settings, t]);
 
-  // Live recalculation
-  const result = calculate();
+  // Live recalculation with useMemo to prevent infinite loops
+  const result = useMemo(() => calculate(), [calculate]);
+
+  // Update errors and warnings based on calculation result
+  useEffect(() => {
+    if (result.error) {
+      setErrors([result.error]);
+    } else {
+      setErrors([]);
+    }
+
+    // Warning check: final date before start date
+    const startDate = parseInputDate(startDateStr);
+    if (startDate && result.finalReleaseDate && result.finalReleaseDate.getTime() < startDate.getTime()) {
+      setWarnings([t('warningBeforeStart')]);
+    } else {
+      setWarnings([]);
+    }
+  }, [result, startDateStr, t]);
 
   // ============================================================================
   // ADJUSTMENT HANDLERS
