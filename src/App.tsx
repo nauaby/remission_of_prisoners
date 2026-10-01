@@ -17,7 +17,6 @@ const translations: Record<string, Record<string, string>> = {
     reset: 'Reset',
     print: 'Print / Save as PDF',
     settings: 'Settings',
-    language: 'Language',
     remissionFraction: 'Remission Fraction',
     roundingRule: 'Rounding Rule',
     roundDown: 'Round Down (Floor)',
@@ -31,24 +30,20 @@ const translations: Record<string, Record<string, string>> = {
     results: 'Calculation Results',
     probableDateOfRelease: 'Probable Date of Release (PDR)',
     pdrExplanation: 'Start Date + Sentence (calendar years, months, days) − 1 day',
-    remissionSection: 'Remission Calculation',
     totalSentenceDays360: 'Total Sentence in Days (360/30 rule)',
-    remissionDays: 'Remission Days (Total ÷ 3)',
-    limitForRemission: 'Limit for Remission (Total − Remission)',
-    dateAfterRemission: 'Release Date after Remission',
-    dateAfterRemissionExplanation: 'Start Date + Limit for Remission − 1 day',
+    remissionDays: 'Remission Days (Eligible days ÷ 3)',
+    limitForRemission: 'Limit for Remission (PDR − Remission Days)',
     totalAdjustments: 'Total Adjustments (in days)',
     finalReleaseDate: 'Final Revised Date of Release',
-    steps: 'Step-by-Step Breakdown',
     step1: 'Step 1: Probable Date of Release (PDR)',
     step2: 'Step 2: Convert Sentence to Days (360/30 rule)',
-    step3: 'Step 3: Calculate Maximum Remission',
-    step4: 'Step 4: Limit for Remission',
-    step5: 'Step 5: Release Date after Remission',
+    step3: 'Step 3: Check Remission Eligibility',
+    step4: 'Step 4: Calculate Remission',
+    step5: 'Step 5: Limit for Remission',
     step6: 'Step 6: Apply Adjustments',
     step7: 'Step 7: Final Release Date',
     warning: 'Warning',
-    warningBeforeStart: 'The final release date falls BEFORE the start date. Please check your inputs.',
+    warningBeforeStart: 'The final release date falls BEFORE the start date.',
     emptySentence: 'No sentence entered. Please enter the sentence duration.',
     requiredField: 'Start date is required.',
     invalidInput: 'Please enter valid positive numbers only.',
@@ -70,15 +65,21 @@ const translations: Record<string, Record<string, string>> = {
     superintendent: 'Superintendent',
     date: 'Date',
     runningTotal: 'Running Total',
-    weekday: 'Weekday',
     totalDays: 'Total Days',
     noAdjustments: 'No adjustments added yet.',
     formula: 'Conversion Rules',
     daysPerMonth: '1 month = 30 days (for remission calculation)',
     daysPerYear: '1 year = 360 days (for remission calculation)',
-    close: 'Close',
     exportImport: 'Save / Load',
     summary: 'Summary',
+    remissionDisabled: 'Remission Disabled',
+    sentenceLessThan6Months: 'Sentence is less than 6 months — remission not applicable',
+    firstLastMonthExcluded: 'First and last month excluded from remission',
+    eligibleDays: 'Eligible Days for Remission',
+    eligibleForRemission: 'Eligible for Remission',
+    notEligible: 'Not Eligible',
+    remissionCalculation: 'Remission Calculation',
+    noRemission: 'No remission applicable',
   },
   ur: {
     appTitle: 'رہائی کی تاریخ کیلکولیٹر',
@@ -93,7 +94,6 @@ const translations: Record<string, Record<string, string>> = {
     reset: 'دوبارہ ترتیب',
     print: 'پرنٹ / پی ڈی ایف',
     settings: 'ترتیبات',
-    language: 'زبان',
     remissionFraction: 'رعایت کا حصہ',
     roundingRule: 'راؤنڈنگ کا اصول',
     roundDown: 'نیچے راؤنڈ',
@@ -107,20 +107,16 @@ const translations: Record<string, Record<string, string>> = {
     results: 'حساب کے نتائج',
     probableDateOfRelease: 'ممکنہ تاریخ رہائی (پی ڈی آر)',
     pdrExplanation: 'آغاز کی تاریخ + سزا (کیلنڈر) − 1 دن',
-    remissionSection: 'رعایت کا حساب',
     totalSentenceDays360: 'کل سزا دنوں میں (360/30 اصول)',
-    remissionDays: 'رعایت کے دن (کل ÷ 3)',
-    limitForRemission: 'رعایت کی حد (کل − رعایت)',
-    dateAfterRemission: 'رعایت کے بعد تاریخ رہائی',
-    dateAfterRemissionExplanation: 'آغاز کی تاریخ + رعایت کی حد − 1 دن',
+    remissionDays: 'رعایت کے دن (اہل دن ÷ 3)',
+    limitForRemission: 'رعایت کی حد (پی ڈی آر − رعایت)',
     totalAdjustments: 'کل کٹوتیاں (دنوں میں)',
     finalReleaseDate: 'حتمی تاریخ رہائی',
-    steps: 'مرحلہ وار تفصیل',
     step1: 'مرحلہ 1: ممکنہ تاریخ رہائی',
     step2: 'مرحلہ 2: سزا کو دنوں میں تبدیل کریں',
-    step3: 'مرحلہ 3: زیادہ سے زیادہ رعایت',
-    step4: 'مرحلہ 4: رعایت کی حد',
-    step5: 'مرحلہ 5: رعایت کے بعد تاریخ رہائی',
+    step3: 'مرحلہ 3: رعایت کی اہلیت چیک کریں',
+    step4: 'مرحلہ 4: رعایت کا حساب',
+    step5: 'مرحلہ 5: رعایت کی حد',
     step6: 'مرحلہ 6: کٹوتیاں لاگو کریں',
     step7: 'مرحلہ 7: حتمی تاریخ رہائی',
     warning: 'انتباہ',
@@ -146,15 +142,21 @@ const translations: Record<string, Record<string, string>> = {
     superintendent: 'سپرنٹنڈنٹ',
     date: 'تاریخ',
     runningTotal: 'مجموعی کل',
-    weekday: 'ہفتے کا دن',
     totalDays: 'کل دن',
     noAdjustments: 'کوئی کٹوتی شامل نہیں۔',
     formula: 'تبدیلی کے اصول',
     daysPerMonth: '1 مہینہ = 30 دن (صرف رعایت کے لیے)',
     daysPerYear: '1 سال = 360 دن (صرف رعایت کے لیے)',
-    close: 'بند کریں',
     exportImport: 'محفوظ / لوڈ',
     summary: 'خلاصہ',
+    remissionDisabled: 'رعایت غیر فعال',
+    sentenceLessThan6Months: 'سزا 6 ماہ سے کم ہے — رعایت لاگو نہیں',
+    firstLastMonthExcluded: 'پہلا اور آخری مہینہ رعایت سے خارج',
+    eligibleDays: 'رعایت کے لیے اہل دن',
+    eligibleForRemission: 'رعایت کے لیے اہل',
+    notEligible: 'اہل نہیں',
+    remissionCalculation: 'رعایت کا حساب',
+    noRemission: 'کوئی رعایت لاگو نہیں',
   },
 };
 
@@ -190,9 +192,11 @@ interface SavedRecord {
 interface CalculationResult {
   pdr: Date | null;
   totalSentenceDays360: number;
+  isEligibleForRemission: boolean;
+  eligibilityReason: string;
+  eligibleDays: number;
   remissionDays: number;
-  limitForRemission: number;
-  dateAfterRemission: Date | null;
+  limitForRemission: Date | null;
   totalAdjustmentDays: number;
   finalReleaseDate: Date | null;
   error?: string;
@@ -208,6 +212,14 @@ interface CalculationResult {
  */
 function sentenceToDays360(years: number, months: number, days: number): number {
   return (years * 360) + (months * 30) + days;
+}
+
+/**
+ * Convert sentence to total months (for eligibility check).
+ * 1 year = 12 months
+ */
+function sentenceToTotalMonths(years: number, months: number): number {
+  return (years * 12) + months;
 }
 
 /**
@@ -296,11 +308,11 @@ function generateId(): string {
  * - Start date: 02-01-2024, Sentence: 3 years
  * - PDR = 02-01-2024 + 3 years - 1 day = 01-01-2027
  * - Total sentence (360/30) = 1080 days
- * - Remission = floor(1080 / 3) = 360 days
- * - Limit = 1080 - 360 = 720 days
- * - Date after remission = 02-01-2024 + 720 days - 1 day = 21-12-2025
- * - Adjustment: 1 month 10 days = 40 days
- * - Final = 21-12-2025 - 40 = 11-11-2025
+ * - Eligible: 3 years >= 6 months ✓
+ * - Eligible days = 1080 - 30 (first month) - 30 (last month) = 1020
+ * - Remission = floor(1020 / 3) = 340 days
+ * - Limit = PDR - 340 days = 01-01-2027 - 340 = 26-01-2026
+ * - With 40-day adjustment: Final = 01-01-2027 - 340 - 40 = 26-01-2026 - 40 = 17-12-2025
  */
 function runSelfTest(): { passed: boolean; details: string[] } {
   const details: string[] = [];
@@ -327,36 +339,39 @@ function runSelfTest(): { passed: boolean; details: string[] } {
     allPassed = false;
   }
 
-  // Test 3: Remission = floor(1080 / 3) = 360
-  const remission = applyRounding(1080 / 3, 'floor');
-  if (remission === 360) {
-    details.push('✓ Remission: floor(1080/3) = 360 days (PASS)');
+  // Test 3: Eligibility check - sentence >= 6 months
+  const totalMonths = sentenceToTotalMonths(3, 0);
+  if (totalMonths >= 6) {
+    details.push('✓ Eligibility: 3 years >= 6 months → eligible (PASS)');
   } else {
-    details.push(`✗ Remission: Expected 360, got ${remission} (FAIL)`);
+    details.push(`✗ Eligibility: Expected eligible (FAIL)`);
     allPassed = false;
   }
 
-  // Test 4: Limit = 1080 - 360 = 720
-  const limit = 1080 - 360;
-  if (limit === 720) {
-    details.push('✓ Limit for Remission: 1080 - 360 = 720 days (PASS)');
+  // Test 4: Eligible days = total - first month - last month
+  const eligibleDays = 1080 - 30 - 30;
+  if (eligibleDays === 1020) {
+    details.push('✓ Eligible days: 1080 - 60 = 1020 days (PASS)');
   } else {
-    details.push(`✗ Limit: Expected 720, got ${limit} (FAIL)`);
+    details.push(`✗ Eligible days: Expected 1020, got ${eligibleDays} (FAIL)`);
     allPassed = false;
   }
 
-  // Test 5: Date after remission = Start + Limit - 1 day
-  const dateAfterRemRaw = addCalendarPeriod(startDate, 0, 0, limit);
-  const dateAfterRem = addDaysToDate(dateAfterRemRaw, -1);
-  const dateAfterRemFormatted = formatDate(dateAfterRem);
-  if (dateAfterRemFormatted === '21-12-2025') {
-    details.push('✓ Date after remission: 02-01-2024 + 720 days - 1 = 21-12-2025 (PASS)');
+  // Test 5: Remission = floor(1020 / 3) = 340
+  const remission = applyRounding(1020 / 3, 'floor');
+  if (remission === 340) {
+    details.push('✓ Remission: floor(1020/3) = 340 days (PASS)');
   } else {
-    details.push(`✗ Date after remission: Expected 21-12-2025, got ${dateAfterRemFormatted} (FAIL)`);
+    details.push(`✗ Remission: Expected 340, got ${remission} (FAIL)`);
     allPassed = false;
   }
 
-  // Test 6: Adjustment = 1 month 10 days = 40 days
+  // Test 6: Limit for Remission = PDR - Remission Days
+  const limit = addDaysToDate(pdr, -340);
+  const limitFormatted = formatDate(limit);
+  details.push(`  → Limit for Remission: 01-01-2027 - 340 days = ${limitFormatted} (${getWeekday(limit)})`);
+
+  // Test 7: Adjustment = 1 month 10 days = 40 days
   const adjDays = sentenceToDays360(0, 1, 10);
   if (adjDays === 40) {
     details.push('✓ Adjustment: 1 month 10 days = 40 days (PASS)');
@@ -365,13 +380,17 @@ function runSelfTest(): { passed: boolean; details: string[] } {
     allPassed = false;
   }
 
-  // Test 7: Final = 21-12-2025 - 40 days = 11-11-2025
-  const finalDate = addDaysToDate(dateAfterRem, -40);
+  // Test 8: Final = PDR - remission - adjustments
+  const finalDate = addDaysToDate(pdr, -340 - 40);
   const finalFormatted = formatDate(finalDate);
-  if (finalFormatted === '11-11-2025') {
-    details.push('✓ Final Release Date: 21-12-2025 - 40 days = 11-11-2025 (PASS)');
+  details.push(`  → Final Release Date: 01-01-2027 - 340 - 40 = ${finalFormatted} (${getWeekday(finalDate)})`);
+
+  // Test 9: Not eligible for < 6 months
+  const shortMonths = sentenceToTotalMonths(0, 4);
+  if (shortMonths < 6) {
+    details.push('✓ Eligibility: 4 months < 6 months → not eligible (PASS)');
   } else {
-    details.push(`✗ Final Release Date: Expected 11-11-2025, got ${finalFormatted} (FAIL)`);
+    details.push(`✗ Eligibility: Expected not eligible for 4 months (FAIL)`);
     allPassed = false;
   }
 
@@ -440,9 +459,9 @@ export default function App() {
     const startDate = parseInputDate(startDateStr);
     if (!startDate) {
       return {
-        pdr: null, totalSentenceDays360: 0, remissionDays: 0,
-        limitForRemission: 0, dateAfterRemission: null,
-        totalAdjustmentDays: 0, finalReleaseDate: null,
+        pdr: null, totalSentenceDays360: 0, isEligibleForRemission: false,
+        eligibilityReason: '', eligibleDays: 0, remissionDays: 0,
+        limitForRemission: null, totalAdjustmentDays: 0, finalReleaseDate: null,
         error: t('requiredField')
       };
     }
@@ -455,9 +474,9 @@ export default function App() {
     // Validate: reject negative numbers
     if (y < 0 || m < 0 || d < 0) {
       return {
-        pdr: null, totalSentenceDays360: 0, remissionDays: 0,
-        limitForRemission: 0, dateAfterRemission: null,
-        totalAdjustmentDays: 0, finalReleaseDate: null,
+        pdr: null, totalSentenceDays360: 0, isEligibleForRemission: false,
+        eligibilityReason: '', eligibleDays: 0, remissionDays: 0,
+        limitForRemission: null, totalAdjustmentDays: 0, finalReleaseDate: null,
         error: t('invalidInput')
       };
     }
@@ -465,9 +484,9 @@ export default function App() {
     // Check for empty sentence
     if (y === 0 && m === 0 && d === 0) {
       return {
-        pdr: null, totalSentenceDays360: 0, remissionDays: 0,
-        limitForRemission: 0, dateAfterRemission: null,
-        totalAdjustmentDays: 0, finalReleaseDate: null,
+        pdr: null, totalSentenceDays360: 0, isEligibleForRemission: false,
+        eligibilityReason: '', eligibleDays: 0, remissionDays: 0,
+        limitForRemission: null, totalAdjustmentDays: 0, finalReleaseDate: null,
         error: t('emptySentence')
       };
     }
@@ -475,9 +494,9 @@ export default function App() {
     // Check for life sentence (very large values)
     if (y > 100) {
       return {
-        pdr: null, totalSentenceDays360: 0, remissionDays: 0,
-        limitForRemission: 0, dateAfterRemission: null,
-        totalAdjustmentDays: 0, finalReleaseDate: null,
+        pdr: null, totalSentenceDays360: 0, isEligibleForRemission: false,
+        eligibilityReason: '', eligibleDays: 0, remissionDays: 0,
+        limitForRemission: null, totalAdjustmentDays: 0, finalReleaseDate: null,
         error: 'Life sentence detected. Please enter the specific term in years/months/days.'
       };
     }
@@ -496,26 +515,40 @@ export default function App() {
     const totalSentenceDays360 = sentenceToDays360(y, m, d);
 
     // ========================================================================
-    // STEP 3: Calculate Maximum Remission
-    // Remission Days = Total Sentence Days / fraction (default 1/3)
-    // Apply rounding rule (default: floor)
+    // STEP 3: Check Remission Eligibility
+    // Rule: Not eligible if sentence < 6 months
     // ========================================================================
-    const rawRemission = totalSentenceDays360 * settings.remissionFraction;
-    const remissionDays = applyRounding(rawRemission, settings.roundingRule);
+    const totalMonthsInSentence = sentenceToTotalMonths(y, m);
+    const isEligibleForRemission = totalMonthsInSentence >= 6;
+    let eligibilityReason = '';
+    if (!isEligibleForRemission) {
+      eligibilityReason = t('sentenceLessThan6Months');
+    }
 
     // ========================================================================
-    // STEP 4: Limit for Remission
-    // Limit = Total Sentence Days - Remission Days
-    // This is the net period the convict actually serves.
+    // STEP 4: Calculate Remission
+    // - Exclude first month (30 days) and last month (30 days)
+    // - Remission = eligible days / fraction (default 1/3)
+    // - Apply rounding rule (default: floor)
     // ========================================================================
-    const limitForRemission = totalSentenceDays360 - remissionDays;
+    let eligibleDays = 0;
+    let remissionDays = 0;
+
+    if (isEligibleForRemission) {
+      // Exclude first month (30 days) and last month (30 days)
+      eligibleDays = totalSentenceDays360 - 30 - 30;
+      if (eligibleDays < 0) eligibleDays = 0;
+
+      // Apply remission fraction with rounding
+      const rawRemission = eligibleDays * settings.remissionFraction;
+      remissionDays = applyRounding(rawRemission, settings.roundingRule);
+    }
 
     // ========================================================================
-    // STEP 5: Release Date after Remission
-    // = Start Date + Limit for Remission (in days) - 1 day
+    // STEP 5: Limit for Remission
+    // Limit = PDR - Remission Days
     // ========================================================================
-    const dateAfterRemRaw = addCalendarPeriod(startDate, 0, 0, limitForRemission);
-    const dateAfterRemission = addDaysToDate(dateAfterRemRaw, -1);
+    const limitForRemission = addDaysToDate(pdr, -remissionDays);
 
     // ========================================================================
     // STEP 6: Calculate total adjustments
@@ -528,16 +561,18 @@ export default function App() {
 
     // ========================================================================
     // STEP 7: Final Revised Date of Release
-    // = Release Date after Remission - total adjustments
+    // Final = PDR - Remission - Adjustments
     // ========================================================================
-    const finalReleaseDate = addDaysToDate(dateAfterRemission, -totalAdjustmentDays);
+    const finalReleaseDate = addDaysToDate(pdr, -remissionDays - totalAdjustmentDays);
 
     return {
       pdr,
       totalSentenceDays360,
+      isEligibleForRemission,
+      eligibilityReason,
+      eligibleDays,
       remissionDays,
       limitForRemission,
-      dateAfterRemission,
       totalAdjustmentDays,
       finalReleaseDate,
     };
@@ -690,6 +725,7 @@ export default function App() {
   const y = parseInt(sentenceYears) || 0;
   const m = parseInt(sentenceMonths) || 0;
   const d = parseInt(sentenceDays) || 0;
+  const totalMonthsInSentence = sentenceToTotalMonths(y, m);
 
   // ============================================================================
   // RENDER
@@ -1097,35 +1133,46 @@ export default function App() {
               </p>
             </div>
 
-            {/* Step 3: Remission */}
+            {/* Step 3: Remission Eligibility */}
+            <div className={`p-3 rounded border-l-4 ${result.isEligibleForRemission ? 'bg-green-50 border-green-500' : 'bg-red-50 border-red-500'}`}>
+              <p className={`text-xs font-bold uppercase mb-1 ${result.isEligibleForRemission ? 'text-green-700' : 'text-red-700'}`}>{t('step3')}</p>
+              <p className="text-sm text-gray-800">
+                Sentence: <strong>{totalMonthsInSentence} months</strong>
+                {totalMonthsInSentence >= 6 ? (
+                  <span className="ml-2 text-green-700 font-medium">✓ {t('eligibleForRemission')}</span>
+                ) : (
+                  <span className="ml-2 text-red-700 font-medium">✗ {t('notEligible')}</span>
+                )}
+              </p>
+              {!result.isEligibleForRemission && result.eligibilityReason && (
+                <p className="text-xs text-red-600 mt-1">{result.eligibilityReason}</p>
+              )}
+              {result.isEligibleForRemission && (
+                <p className="text-xs text-green-600 mt-1">✓ {t('firstLastMonthExcluded')}</p>
+              )}
+            </div>
+
+            {/* Step 4: Remission Calculation */}
             <div className="p-3 bg-green-50 rounded border-l-4 border-green-500">
-              <p className="text-xs font-bold text-green-700 uppercase mb-1">{t('step3')}</p>
-              <p className="text-sm text-gray-800">
-                {result.totalSentenceDays360} × {settings.remissionFraction === 1/3 ? '1/3' : settings.remissionFraction} = <strong className="text-green-800">{result.remissionDays} {t('days').toLowerCase()}</strong>
-                <span className="text-xs text-gray-500 ml-1">({settings.roundingRule === 'floor' ? t('roundDown') : settings.roundingRule === 'ceil' ? t('roundUp') : t('roundNearest')})</span>
-              </p>
+              <p className="text-xs font-bold text-green-700 uppercase mb-1">{t('step4')}</p>
+              {result.isEligibleForRemission ? (
+                <div className="text-sm text-gray-800 space-y-1">
+                  <p>{t('eligibleDays')}: {result.totalSentenceDays360} − 30 − 30 = <strong>{result.eligibleDays} days</strong></p>
+                  <p className="font-medium">
+                    {t('remissionDays')}: {result.eligibleDays} × {settings.remissionFraction === 1/3 ? '1/3' : settings.remissionFraction} = <strong className="text-green-800">{result.remissionDays} days</strong>
+                    <span className="text-xs text-gray-500 ml-1">({settings.roundingRule === 'floor' ? t('roundDown') : settings.roundingRule === 'ceil' ? t('roundUp') : t('roundNearest')})</span>
+                  </p>
+                </div>
+              ) : (
+                <p className="text-sm text-red-700 font-medium">{t('noRemission')}</p>
+              )}
             </div>
 
-            {/* Step 4: Limit for Remission */}
+            {/* Step 5: Limit for Remission = PDR - Remission Days */}
             <div className="p-3 bg-yellow-50 rounded border-l-4 border-yellow-500">
-              <p className="text-xs font-bold text-yellow-700 uppercase mb-1">{t('step4')}</p>
+              <p className="text-xs font-bold text-yellow-700 uppercase mb-1">{t('step5')}</p>
               <p className="text-sm text-gray-800">
-                {result.totalSentenceDays360} − {result.remissionDays} = <strong className="text-yellow-800">{result.limitForRemission} {t('days').toLowerCase()}</strong>
-              </p>
-            </div>
-
-            {/* Step 5: Release Date after Remission */}
-            <div className="p-3 bg-purple-50 rounded border-l-4 border-purple-500">
-              <p className="text-xs font-bold text-purple-700 uppercase mb-1">{t('step5')}</p>
-              <p className="text-sm text-gray-600 mb-1 italic">{t('dateAfterRemissionExplanation')}</p>
-              <p className="text-sm text-gray-800">
-                {startDateStr && parseInputDate(startDateStr) ? formatDate(parseInputDate(startDateStr)!) : '—'}
-                {' + '}
-                <span className="font-medium">{result.limitForRemission} {t('days').toLowerCase()}</span>
-                {' − 1 day = '}
-                <strong className="text-purple-800 text-base">
-                  {result.dateAfterRemission ? `${formatDate(result.dateAfterRemission)} (${getWeekday(result.dateAfterRemission)})` : '—'}
-                </strong>
+                {result.pdr ? formatDate(result.pdr) : '—'} − {result.remissionDays} {t('days').toLowerCase()} = <strong className="text-yellow-800 text-base">{result.limitForRemission ? `${formatDate(result.limitForRemission)} (${getWeekday(result.limitForRemission)})` : '—'}</strong>
               </p>
             </div>
 
@@ -1149,7 +1196,7 @@ export default function App() {
               <p className="text-xs font-bold text-green-700 uppercase mb-1">{t('step7')}</p>
               <div className="text-sm">
                 <p className="text-gray-800 mb-2">
-                  {result.dateAfterRemission ? formatDate(result.dateAfterRemission) : '—'} − {result.totalAdjustmentDays} {t('days').toLowerCase()} =
+                  {result.pdr ? formatDate(result.pdr) : '—'} − {result.remissionDays} − {result.totalAdjustmentDays} =
                 </p>
                 <p className="text-xl font-bold text-green-800">
                   {result.finalReleaseDate ? formatDate(result.finalReleaseDate) : '—'}
@@ -1179,18 +1226,22 @@ export default function App() {
                   <td className="p-2">{t('totalSentenceDays360')}</td>
                   <td className="p-2 text-right font-mono">{result.totalSentenceDays360}</td>
                 </tr>
-                <tr className="border-b bg-green-50">
-                  <td className="p-2">{t('remissionDays')}</td>
-                  <td className="p-2 text-right font-mono text-green-700">{result.remissionDays}</td>
+                <tr className="border-b">
+                  <td className="p-2">{t('eligibleForRemission')}</td>
+                  <td className="p-2 text-right font-mono">{result.isEligibleForRemission ? '✓ Yes' : '✗ No'}</td>
                 </tr>
-                <tr className="border-b bg-yellow-50">
-                  <td className="p-2">{t('limitForRemission')}</td>
-                  <td className="p-2 text-right font-mono text-yellow-800 font-bold">{result.limitForRemission}</td>
-                </tr>
-                <tr className="border-b bg-purple-50">
-                  <td className="p-2 font-medium">{t('dateAfterRemission')}</td>
-                  <td className="p-2 text-right font-mono">{result.dateAfterRemission ? `${formatDate(result.dateAfterRemission)} (${getWeekday(result.dateAfterRemission)})` : '—'}</td>
-                </tr>
+                {result.isEligibleForRemission && (
+                  <>
+                    <tr className="border-b bg-green-50">
+                      <td className="p-2">{t('remissionDays')}</td>
+                      <td className="p-2 text-right font-mono text-green-700">{result.remissionDays}</td>
+                    </tr>
+                    <tr className="border-b bg-yellow-50">
+                      <td className="p-2 font-medium">{t('limitForRemission')}</td>
+                      <td className="p-2 text-right font-mono text-yellow-800">{result.limitForRemission ? `${formatDate(result.limitForRemission)} (${getWeekday(result.limitForRemission)})` : '—'}</td>
+                    </tr>
+                  </>
+                )}
                 {adjustments.length > 0 && (
                   <tr className="border-b bg-orange-50">
                     <td className="p-2">{t('totalAdjustments')}</td>
@@ -1240,7 +1291,7 @@ export default function App() {
         {/* Footer */}
         <footer className="text-center text-xs text-gray-500 py-4 no-print">
           <p>{t('appTitle')} — Offline Calculator</p>
-          <p className="mt-1">PDR = Start + Sentence (calendar) − 1 day. Remission = Total/3 (360/30 rule). Final = Start + Limit − 1 − Adjustments.</p>
+          <p className="mt-1">PDR = Start + Sentence (calendar) − 1 day. Remission = Eligible days/3 (first & last month excluded). Final = PDR − Remission − Adjustments.</p>
         </footer>
       </main>
     </div>
