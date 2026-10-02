@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* RTL Support */
+[dir="rtl"] {
+  font-family: 'Segoe UI', Tahoma, 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', sans-serif;
+}
+
+[dir="rtl"] .border-l-4 {
+  border-left: 0;
+  border-right: 4px solid;
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .print-container {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 10mm !important;
+    max-width: 100% !important;
+    border: none !important;
+  }
+  @page {
+    margin: 15mm;
+    size: A4;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Input focus styles */
+input:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Number input spinner removal for cleaner look */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Urdu font enhancement */
+[dir="rtl"] input,
+[dir="rtl"] select,
+[dir="rtl"] textarea {
+  text-align: right;
+}
